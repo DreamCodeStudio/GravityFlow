@@ -68,16 +68,29 @@ void Core::Update()
 		//Start rendering threads
 		for (unsigned int i = 0; i < THREADS; i++)
 		{
-			std::thread Thread(&Core::CalculatePoints, this, i);
+			std::thread Thread(&Core::CalculatePoints, this, i, false);
 			Thread.detach();
 		}
 
 		while (sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
 	}
 
+	//If the S key was pressed save a picture of the gravity map
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		_gravityMap.saveToFile("GravityMap.png");
+	}
+
+	//If the user pressed the right mouse button start the gravity simulation of an object on this location
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	{
+		_testObject.Create(sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(_mainWindow).x), 
+										static_cast<float>(sf::Mouse::getPosition(_mainWindow).y)), sf::Vector2f(0, 0));
+
+		std::thread Thread(&Core::CalculatePoints, this, 1, true);
+		Thread.detach();
+
+		while (sf::Mouse::isButtonPressed(sf::Mouse::Right));
 	}
 }
 
@@ -96,43 +109,59 @@ void Core::Render()
 		_gravitySources[i]->Render(&_mainWindow);
 	}
 
+	_testObject.Render(&_mainWindow);
+
 	_mainWindow.display();
 }
 
 
-void Core::CalculatePoints(int threadNumber)
+void Core::CalculatePoints(int threadNumber, bool useTestObject)
 {
 	//Get the thread Number as starting index 
 	int pointIndex = threadNumber;
 
 	//Create an object to test the gravity
-	Object o;
+	Object *o = new Object;
+
+	//Framelimit 
+	sf::Clock clock;
 
 	//Go through all testing points 
 	while (pointIndex < _testPoints.size())
 	{
-		//Set our object to the current test point
-		o.Create(_testPoints[pointIndex], sf::Vector2f(0, 0));
+		//If the user started a simulation with the right mouse button and wants to see the object -> use the test object
+		if (useTestObject)
+		{
+			delete o;
+			o = &_testObject;
+		}
+		else
+		{
+			//Set our object to the current test point
+			o->Create(_testPoints[pointIndex], sf::Vector2f(0, 0));
+		}
 
 		//We abort the simulation if the object stayed more than 5000 frames in the gravitational field
-		while (o.GetLiveTime() < 5000)
+		while (o->GetLiveTime() < 5000)
 		{
+			clock.restart();
+
 			//Let the object get influenced by all gravitational sources
 			for (unsigned int i = 0; i < _gravitySources.size(); i++)
 			{
-				_gravitySources[i]->CalculateVelocity(&o);
+				_gravitySources[i]->CalculateVelocity(o);
 			}
 
-			o.SetPosition(o.GetPosition() + *o.GetVelocity());
+			o->SetPosition(o->GetPosition() + *o->GetVelocity());
 
 			//Check if the object is to close to a gravitational source
 			for (unsigned int i = 0; i < _gravitySources.size(); i++)
 			{
 				//If one object got to close to a gravitational source -> abort
-				if (_gravitySources[i]->GetDistance(&o) < 20)
+				if (_gravitySources[i]->GetDistance(o) < 20)
 				{
 					//Calculate the color and maybe raster a square
-					int colorkey = static_cast<int>((o.GetLiveTime() / 5000.0f) * 765);
+					int colorkey = static_cast<int>((o->GetLiveTime() / 5000.0f) * 765);
 
 					this->RasterPixel(_testPoints[pointIndex], colorkey);
 					goto end;
@@ -140,28 +169,46 @@ void Core::CalculatePoints(int threadNumber)
 			}
 
 			//Add 1 frame to the lifetime
-			o.Tick();
+			o->Tick();
 
 			//If the object flew out of the screen -> abort
-			if (o.GetPosition().x < 0 || o.GetPosition().x > 1920 || o.GetPosition().y < 0 || o.GetPosition().y > 1080)
+			if (o->GetPosition().x < 0 || o->GetPosition().x > 1920 || o->GetPosition().y < 0 || o->GetPosition().y > 1080)
 			{
 				//Calculate the color and maybe raster a square
-				int colorkey = static_cast<int>((o.GetLiveTime() / 5000.0f) * 765);
+				int colorkey = static_cast<int>((o->GetLiveTime() / 5000.0f) * 765);
 
 				this->RasterPixel(_testPoints[pointIndex], colorkey);
 				break;
 			}
+
+			//If we use the test object the user spawned with right mouse button, we need to limit the fps
+			if (useTestObject)
+			{
+				while (clock.getElapsedTime().asMilliseconds() < sf::milliseconds(8).asMilliseconds());
+			}
 		}
 		end:
 
+		//If we used the test object we can exit here
+		if (useTestObject)
+		{
+			return;
+		}
+
 		//If the object stayed more than 5000 frames set the pixel color to white
-		if (o.GetLiveTime() >= 5000)
+		if (o->GetLiveTime() >= 5000)
 		{
 			this->RasterPixel(_testPoints[pointIndex], 765);
 		}
 
 		pointIndex += THREADS;
 	}
+
+	if (!useTestObject)
+	{
+		delete o;
+	}
+
 }
 
 sf::Vector2f Core::NextPixel(sf::Vector2f currentPixel)

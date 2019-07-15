@@ -4,6 +4,6 @@
   main.cpp
   Code wird generiert.
   Previous IPDB not found, fall back to full compilation.
-  All 247 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 286 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Codegenerierung ist abgeschlossen.
-  Gravity.vcxproj -> C:\Users\Michael\Desktop\Gravity\x64\Release\Gravity.exe
+  Gravity.vcxproj -> M:\programmieren\C++\Engines\SFML\GravitySimulation\x64\Release\Gravity.exe

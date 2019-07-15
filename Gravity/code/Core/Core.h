@@ -28,7 +28,7 @@ class Core
 		void Update();
 		void Render();
 
-		void CalculatePoints(int threadNumber);
+		void CalculatePoints(int threadNumber, bool useTestObject);
 
 		sf::Vector2f NextPixel(sf::Vector2f currentPixel);
 		void RasterPixel(sf::Vector2f pixel, int colorkey);
@@ -38,5 +38,5 @@ class Core
 		sf::Image _gravityMap;
 		std::vector<sf::Vector2f> _testPoints;	
 		std::vector<GravitySource*> _gravitySources;
-
+		Object _testObject;
 };
