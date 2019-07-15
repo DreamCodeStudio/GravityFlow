@@ -1,0 +1,17 @@
+﻿  Core.cpp
+C:\Users\Michael\Desktop\Gravity\Gravity\code\Core\Core.cpp(56): warning C4244: "Initialisierung": Konvertierung von "float" in "int", möglicher Datenverlust
+C:\Users\Michael\Desktop\Gravity\Gravity\code\Core\Core.cpp(106): warning C4244: "Initialisierung": Konvertierung von "T" in "unsigned int", möglicher Datenverlust
+          with
+          [
+              T=float
+          ]
+C:\Users\Michael\Desktop\Gravity\Gravity\code\Core\Core.cpp(108): warning C4244: "Initialisierung": Konvertierung von "T" in "unsigned int", möglicher Datenverlust
+          with
+          [
+              T=float
+          ]
+  GravitySource.cpp
+  Object.cpp
+  main.cpp
+  Code wird generiert...
+  Gravity.vcxproj -> C:\Users\Michael\Desktop\Gravity\x64\Debug\Gravity.exe

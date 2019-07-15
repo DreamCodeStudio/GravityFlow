@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien\Core">
+      <UniqueIdentifier>{f194acf8-2138-4b59-a22d-a7888dc81272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Core">
+      <UniqueIdentifier>{e7693ec4-88ca-4b88-9c96-9d1a51fbcf99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Core\GravitySource">
+      <UniqueIdentifier>{fe810d4d-9898-4c1c-aa4a-4497df628ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Core\GravitySource">
+      <UniqueIdentifier>{196a8bad-6c00-4175-8393-8d521f98f273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Core\Object">
+      <UniqueIdentifier>{8772d2b7-75a9-4cb1-a23d-208bfea36544}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Core\Object">
+      <UniqueIdentifier>{0828175b-8e97-4deb-b0f9-9c02644fb058}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Core\Core.cpp">
+      <Filter>Quelldateien\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Core\GravitySource\GravitySource.cpp">
+      <Filter>Quelldateien\Core\GravitySource</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Core\Object\Object.cpp">
+      <Filter>Quelldateien\Core\Object</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\Core\Core.h">
+      <Filter>Headerdateien\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Core\GravitySource\GravitySource.h">
+      <Filter>Headerdateien\Core\GravitySource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Core\Object\Object.h">
+      <Filter>Headerdateien\Core\Object</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
